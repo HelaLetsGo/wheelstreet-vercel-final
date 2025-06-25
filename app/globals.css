@@ -1,0 +1,441 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
+
+    /* Custom colors */
+    --header-bg: 240 10% 3.9% / 0.9;
+    --header-text: 0 0% 98%;
+    --hero-overlay: 0 0% 0% / 0.5;
+    --card-bg: 240 10% 5%;
+    --card-hover: 240 10% 7%;
+    --section-bg-primary: 240 10% 3.9%;
+    --section-bg-secondary: 240 10% 5%;
+    --button-primary-bg: 0 0% 98%;
+    --button-primary-text: 240 5.9% 10%;
+    --button-secondary-bg: 240 10% 3.9%;
+    --button-secondary-text: 0 0% 98%;
+    --button-outline-border: 240 3.7% 15.9%;
+    --button-outline-text: 0 0% 98%;
+    --button-outline-hover: 240 3.7% 15.9%;
+
+    /* Starlight colors */
+    --star-color: 0 0% 100%;
+    --star-glow: 0 0% 100% / 0.6;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Smooth theme transition */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Hero section text enhancements */
+.hero-text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7), 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-text-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Starlight effect - Fixed z-index to ensure stars are visible */
+.star {
+  position: absolute;
+  background-color: hsl(var(--star-color));
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 4px 1px hsl(var(--star-glow));
+  animation: twinkle var(--duration, 5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  transform: translateZ(0);
+  will-change: opacity, transform;
+  z-index: 1; /* Ensure stars are visible */
+}
+
+/* Enhanced Rolls-Royce style starlight effect - Fixed z-index */
+.starlight-star {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.5);
+  animation: starlightTwinkle ease-in-out infinite;
+  transform: translateZ(0);
+  will-change: opacity;
+  min-width: 1px;
+  min-height: 1px;
+  z-index: 1; /* Ensure stars are visible */
+}
+
+/* Fix for section backgrounds to ensure they don't cover stars */
+.section-bg-primary,
+.section-bg-secondary,
+.bg-section-bg-primary,
+.bg-section-bg-secondary,
+.bg-black,
+.bg-zinc-900 {
+  position: relative;
+  z-index: 0; /* Lower z-index than stars */
+}
+
+/* Ensure content is above stars */
+.relative.z-10 {
+  z-index: 10; /* Higher z-index than stars */
+}
+
+@keyframes starlightTwinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateZ(0) scale(0.8);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translateY(calc(var(--travel-distance) * 0.3)) translateZ(0) scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(calc(var(--travel-distance) * 0.6)) translateZ(0) scale(1.1);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(calc(var(--travel-distance) * 0.8)) translateZ(0) scale(1);
+  }
+  80% {
+    opacity: 0.4;
+    transform: translateY(calc(var(--travel-distance) * 0.9)) translateZ(0) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--travel-distance)) translateZ(0) scale(0.8);
+  }
+}
+
+/* Parallax utilities */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-section {
+  position: relative;
+}
+
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  z-index: 0; /* Place background below stars */
+}
+
+.parallax-section > * {
+  position: relative;
+  z-index: 2; /* Place content above stars */
+}
+
+/* Ensure stars container is properly positioned */
+[ref="starlightRef"] {
+  z-index: 1 !important;
+}
+
+/* Advanced animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* For browsers that support it, use higher quality scrolling */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Improve form elements on mobile */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Improve touch targets */
+  button,
+  a,
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+
+  /* Ensure proper spacing on mobile */
+  .mobile-spacing {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Fix 100vh issues on mobile */
+  .min-h-screen {
+    min-height: 100vh; /* fallback */
+    min-height: -webkit-fill-available;
+    min-height: 100svh;
+  }
+
+  /* Center content on mobile */
+  .mobile-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ensure buttons are properly sized for touch */
+  .mobile-full-width {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Adjust font sizes for mobile */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+  }
+
+  /* Ensure proper padding around content */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Admin Dashboard Styles - Redesigned */
+.admin-dashboard-active {
+  /* Base colors */
+  --admin-bg: #000000;
+  --admin-card-bg: #0f0f0f;
+  --admin-border: rgba(255, 255, 255, 0.1);
+  --admin-text: #ffffff;
+  --admin-text-secondary: rgba(255, 255, 255, 0.6);
+  --admin-hover: rgba(255, 255, 255, 0.05);
+}
+
+/* Admin UI wrapper */
+.admin-ui-wrapper {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.011em;
+}
+
+/* Base elements */
+.admin-dashboard-active body {
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+/* Typography */
+.admin-dashboard-active h1,
+.admin-dashboard-active h2,
+.admin-dashboard-active h3,
+.admin-dashboard-active h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Layout elements */
+.admin-dashboard-active .bg-zinc-900,
+.admin-dashboard-active .bg-zinc-800,
+.admin-dashboard-active .bg-black {
+  background-color: var(--admin-card-bg);
+}
+
+/* Cards */
+.admin-dashboard-active .border-white\/10 {
+  border-color: var(--admin-border);
+}
+
+/* Tables */
+.admin-dashboard-active table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-dashboard-active th {
+  font-weight: 500;
+  text-align: left;
+  padding: 16px;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-dashboard-active td {
+  padding: 16px;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-dashboard-active tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.admin-dashboard-active tbody tr:hover {
+  background-color: var(--admin-hover);
+}
+
+/* Form elements */
+.admin-dashboard-active input,
+.admin-dashboard-active select,
+.admin-dashboard-active textarea {
+  background-color: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  transition: all 0.2s ease;
+}
+
+.admin-dashboard-active input:focus,
+.admin-dashboard-active select:focus,
+.admin-dashboard-active textarea:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+/* Buttons */
+.admin-dashboard-active button {
+  transition: all 0.2s ease;
+}
+
+/* Badges */
+.admin-dashboard-active .badge {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Shadows */
+.admin-dashboard-active .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.admin-dashboard-active .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Dialogs */
+.admin-dashboard-active [role="dialog"] {
+  background-color: rgba(0, 0, 0, 0.7);
+}
